@@ -1,0 +1,27 @@
+- name: Configure EC2 instance for Flask app
+  hosts: web
+  become: true
+  vars:
+    flask_image: saketh2406/flaskapp:latest  # <- Updated here
+  tasks:
+    - name: Update APT cache
+      apt:
+        update_cache: yes
+
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+
+    - name: Run Flask app container
+      docker_container:
+        name: flaskapp
+        image: "{{ flask_image }}"           # <- Uses updated var
+        ports:
+          - "5000:5000"
