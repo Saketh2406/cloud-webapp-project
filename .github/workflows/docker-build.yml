@@ -28,4 +28,3 @@ jobs:
         push: true
         tags: saketh2406/flaskapp:latest
         platforms: linux/amd64
-
